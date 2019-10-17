@@ -1,0 +1,102 @@
+// no classes?
+// anything defined here is global
+// - functions, syntaxes, and yes, even variables
+// syntacks
+
+
+// functions
+func hi(ar, arg, dab=20) {
+  return ar+arg+dab;
+}
+
+func main() {
+
+  // CAN BE IMPLEMENTED IN LANG
+  // value increment
+  x += 1;
+  x -= 1;
+  x *= 1;
+  x /= 1;
+
+  // conditionals
+  if (bool_thing) {
+    //run
+  } else if (bool_blah) {
+    // run stuff
+  } else {
+
+  }
+
+  // delete
+  del x;
+  del io.input;
+
+  // while loop
+  while (x > 10) {
+    // thing
+  }
+
+  //variable declarations
+  x = 10;
+
+
+  //CANT BE IMPLEMENTED IN LANG
+  // function calls
+  hi(10, 20);
+
+  //imports
+  import "io.println,input"; // imports println and input fromio namespaced
+  import "io"; // io::println io::input
+
+  limports "io.dab"
+}
+
+// syntax change at runtime inside file for making a statement
+impl statement for {
+  literals = ["{", "}"];
+  wildcard = ["--program--", "--expression--"];
+  consts = {FOR: "foreach", IN: "in"};
+  struct = "FOR --expression-- IN --expression-- '{' --program-- '}'";
+
+  func run(index, iter, in_loop) {
+    i = 0;
+    while (len(iter) > i) {
+      `self.objects[var.index.value] = var.iter[i]`;
+      in_loop();
+      i = i+1;
+    }
+  }
+}
+
+
+// syntax change at runtime inside file for making an expr
+impl expression int {
+  consts = {"INT": "d+z"};
+  struct = "INT";
+
+  // value to return when value is made
+  func run(value) {
+   return `intType.thing(var.value)`;
+  }
+  // what to do when expression is added
+  func add(arg, arg1) {
+    return `intType.arg.value + intType.arg1.value`;
+  }
+  // what to do when expression is increment added
+  func iadd(random, yeet) {
+    return `intType.random.value += intType.yeet.value`;
+  }
+}
+
+scope {
+  x = "hi";
+}
+
+// x is undefined here
+
+io.println();
+io.print();
+io.printf();
+io.printfln();
+io.input();
+

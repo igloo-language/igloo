@@ -1,0 +1,25 @@
+Block = (VariableAssignmentStatement | FunctionDefineStatement | Epsilon)+
+
+VariableAssignmentStatement = ID "=" Expression ";"
+FunctionDefineStatement = "func" ID "(" FunctionArgs ")" "{" Block "}"
+
+FunctionArgs = {Posarg ","} {OptionalPosArg ","} {Kwarg ","} # last comma is optional
+
+OptionalPosArg = ID "?"
+
+Kwarg = ID "=" Expression
+
+Posarg = ID
+
+String = r".*?"
+
+Tuple = "(" {Expression ","} ")"
+      | "(" "," ")"
+      | "(" ")"
+
+Expression = Term {( "+" | "-" ) Term}
+Term = Factor {( "*" | "/" | "%" ) Factor}
+Factor = Item | "-" Factor
+Item = Integer | Float | Tuple | ID | "(" Expression ")"
+
+InlineCode = "`" anything "`"
