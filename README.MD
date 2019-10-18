@@ -1,3 +1,3 @@
 # Igloo
 
-A syntax oriented programming language
+A high level general purpose syntax oriented programming language.
