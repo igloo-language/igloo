@@ -24,7 +24,7 @@ class Type:
 
     def __mod__(self, other):
         return self.__class__(self.value % other.value, self.pos)
-    
+
     def __str__(self):
         return str(self.value)
 
