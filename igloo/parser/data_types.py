@@ -25,9 +25,10 @@ class BackTracker:
 
     def get_max_parses(self):
         if self.logs:
+            values = self.logs.values()
             max_values = [
                 key
-                for m in [min(self.logs.values())]
+                for m in [max(values)]
                 for key, val in self.logs.items()
                 if val == m
             ]
@@ -83,21 +84,36 @@ class InlineCode(Statement):
 
 
 class FunctionDefine(Statement):
-    def __init__(self, id, pos, pos_args=[], kwargs={}):
+    def __init__(self, id, pos, pos_args=[], optional_pos_arg=[], kwargs=[], code=[]):
         self.id = id
         self.pos_args = pos_args
+        self.optional_pos_arg = optional_pos_arg
         self.kwargs = kwargs
+        self.code = code
 
     def add_pos_arg(self, element):
         self.pos_args.append(element)
 
-    def add_kwarg(self, id, element):
-        self.kwargs[id] = element
+    def add_optional_pos_arg(self, element):
+        self.add_optional_pos_arg.append(element)
+
+    def add_kwarg(self, kwarg):
+        self.kwargs.append(kwarg)
+    
+    def add_code(self, code):
+        self.code += code
 
 
 class Expression:
     def __init__(self, _type, value, pos):
         self.type = _type
+        self.value = value
+        self.pos = pos
+
+
+class Kwarg:
+    def __init__(self, _id, value, pos):
+        self.id = _id
         self.value = value
         self.pos = pos
 

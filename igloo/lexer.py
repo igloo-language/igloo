@@ -6,6 +6,7 @@ import errors
 DEFULT_IGLOO_LEXER = [
     (r"//.*", "COMMENT"),
     (r"func", "FUNC"),
+    (r"return", "RETURN"),
     (r"[a-zA-Z_][a-zA-Z_0-9]*", "IDENTIFIER"),
     (r'".*?"', "STRING"),
     (r"`.*?`", "INLINE"),
@@ -17,8 +18,12 @@ DEFULT_IGLOO_LEXER = [
     (r"%", "MODULO"),
     (r"\(", "LP"),
     (r"\)", "RP"),
+    (r"{", "LCP"),
+    (r"}", "RCP"),
     (r"=", "EQUALS"),
+    (r",", "COMMA"),
     (r";", "SEMICOLON"),
+    (r"\?", "QUESTION"),
 ]
 
 
