@@ -54,7 +54,8 @@ class BackTracker:
             os.system("color")
         red = "\033[91m"
         white = "\033[0m"
-        self.error = f'{red}SyntaxError: {" or ".join(map(lambda x: x.message, max_values)).capitalize()} found "{max_values[0].token.value}"{white}'
+        bold = "\033[1m"
+        self.error = f'{red}{bold}SyntaxError: {" or ".join(list(set(map(lambda x: x.message, max_values)))).capitalize()} found "{max_values[0].token.value}"{white}'
         return self.error
 
 
@@ -86,6 +87,7 @@ class InlineCode(Statement):
 class FunctionDefine(Statement):
     def __init__(self, id, pos, pos_args=[], optional_pos_arg=[], kwargs=[], code=[]):
         self.id = id
+        self.pos = pos
         self.pos_args = pos_args
         self.optional_pos_arg = optional_pos_arg
         self.kwargs = kwargs
@@ -95,7 +97,7 @@ class FunctionDefine(Statement):
         self.pos_args.append(element)
 
     def add_optional_pos_arg(self, element):
-        self.add_optional_pos_arg.append(element)
+        self.optional_pos_arg.append(element)
 
     def add_kwarg(self, kwarg):
         self.kwargs.append(kwarg)

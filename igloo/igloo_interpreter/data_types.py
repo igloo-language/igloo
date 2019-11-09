@@ -45,3 +45,9 @@ class String(Type):
     def __init__(self, value, pos):
         self.value = str(value)
         self.pos = pos
+
+class Function:
+    def __init__(self, pos_args, optional_pos_args, kwargs):
+        self.pos_args = pos_args
+        self.optional_pos_args = optional_pos_args
+        self.kwargs = kwargs

@@ -1,5 +1,5 @@
 import errors
-import interpreter.data_types as dt
+import igloo_interpreter.data_types as dt
 
 
 class UndefinedVariable(errors.Error):

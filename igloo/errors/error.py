@@ -10,7 +10,8 @@ class Error:
     def __str__(self):
         red = "\033[91m"
         white = "\033[0m"
-        return f"{red}{self.error}: {self.message}{white}"
+        bold = "\033[1m"
+        return f"{red}{bold}{self.error}: {self.message}{white}"
 
 
 class Logger:

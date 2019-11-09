@@ -1,14 +1,15 @@
-import interpreter.data_types as idt
-import parser.data_types as pdt
-import lexer
-import parser
+import igloo_interpreter.data_types as idt
+import igloo_parser.data_types as pdt
+import igloo_lexer
+import igloo_parser
 import errors
 
 
 class Program:
-    from interpreter.statements import (
+    from igloo_interpreter.statements import (
         variable_assignment,
         inline_code,
+        function_define,
         eval_expression,
         eval_int,
         eval_id_name,
@@ -30,21 +31,21 @@ class Program:
             "CONTENTS": text,
             "FILENAME": filename,
         }
-        self.lx = lexer.Lexer(
-            lexer.DEFULT_IGLOO_LEXER, self.global_objects, skip_whitespace=True
+        self.lx = igloo_lexer.Lexer(
+            igloo_lexer.DEFULT_IGLOO_LEXER, self.global_objects, skip_whitespace=True
         )
 
-        self.parser = parser.Parser(self.lx, self.global_objects)
+        self.parser = igloo_parser.Parser(self.lx, self.global_objects)
         self.ast = self.parser.parse()
 
-        self.objects = {}
-        self.objects[idt.ID("__file", 0)] = filename
+        self.objects = {idt.ID("__file", 0): filename}
 
         self.global_objects["ERROR"].global_obj = self.global_objects
 
         self.statement_dict = {
             pdt.VariableAssignment: self.variable_assignment,
             pdt.InlineCode: self.inline_code,
+            pdt.FunctionDefine: self.function_define
         }
 
     def run(self):

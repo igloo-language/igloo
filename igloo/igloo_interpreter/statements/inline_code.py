@@ -1,4 +1,4 @@
-from interpreter.data_types import *
+from igloo_interpreter.data_types import *
 
 
 def inline_code(self, statement):

@@ -1,5 +1,6 @@
 from .variable_assignment import variable_assignment
 from .inline_code import inline_code
+from .function_define import function_define
 from .eval_expression import (
     eval_expression,
     eval_int,

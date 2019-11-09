@@ -187,7 +187,11 @@ class Lexer:
         self.pos = self.group_pos
 
     def consume(self):
+        self.old_pos = self.pos
         self.pos = self.next_pos
+    
+    def go_back(self):
+        self.pos = self.old_pos
 
     def tokens(self):
         temp_pos = self.pos

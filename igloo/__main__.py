@@ -1,13 +1,11 @@
-import lexer
-import parser
 import errors
-import interpreter
+import igloo_interpreter
 import os
 import argparse
 
 
 def run_program(filename, text):
-    program = interpreter.Program(filename, text)
+    program = igloo_interpreter.Program(filename, text)
     program.run()
 
 
