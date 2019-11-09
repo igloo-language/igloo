@@ -1,12 +1,13 @@
 import igloo_parser.data_types as dt
 
+
 class InlineCode:
     def inline_code_statement(self):
         # inline_code: inline ";"
         position = self.lexer_obj.pos
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
-        if (inline := self.inline()) == False:
+        if (inline := self.inline()) is False:
             self.go_back()
             return False
 

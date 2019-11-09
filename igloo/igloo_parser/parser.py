@@ -3,7 +3,8 @@ import errors
 import igloo_parser.statements as statements
 
 
-class Parser(statements.Maths, statements.Functions, statements.Expressions, statements.InlineCode, statements.Terminals, statements.Literals, statements.VariableAssignment):
+class Parser(statements.Maths, statements.Functions, statements.Expressions, statements.InlineCode,
+             statements.Terminals, statements.Literals, statements.VariableAssignment):
     def __init__(self, lexer_obj, global_objects):
         self.lexer_obj = lexer_obj
         self.parser_log = dt.BackTracker(global_objects)
@@ -32,7 +33,7 @@ class Parser(statements.Maths, statements.Functions, statements.Expressions, sta
         while is_not_break:
             for function in _statements:
                 statement = function()
-                if statement != False:
+                if statement is not False:
                     code.append(statement)
                     fail = False
                     break

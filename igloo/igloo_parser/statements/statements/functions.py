@@ -1,51 +1,51 @@
 import igloo_parser.data_types as dt
 
+
 class Functions:
     def function_declaration_statement(self):
-            # function_declaration_statement: func ID "(" arguments ")" "{" block "}"
-            position = self.lexer_obj.pos
-            self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        # function_declaration_statement: func ID "(" arguments ")" "{" block "}"
+        position = self.lexer_obj.pos
+        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
-            if self.func() == False:
-                self.go_back()
-                return False
+        if self.func() is False:
+            self.go_back()
+            return False
 
-            if (_id := self.ID()) == False:
-                self.go_back()
-                self.parser_log.add_point(
-                    self.lexer_obj.pos, "Expected an ID", self.lexer_obj.peek(), 1
-                )
-                return False
+        if (_id := self.ID()) is False:
+            self.go_back()
+            self.parser_log.add_point(
+                self.lexer_obj.pos, "Expected an ID", self.lexer_obj.peek(), 1
+            )
+            return False
 
-            func_obj = dt.FunctionDefine(_id, position)
-            
-            if self.lp() == False:
-                self.go_back()
-                self.parser_log.add_point(
-                    self.lexer_obj.pos, 'Expected "("', self.lexer_obj.peek(), 2
-                )
-                return False
+        func_obj = dt.FunctionDefine(_id, position)
 
-            if (arguments := self.arguments(func_obj)) == False:
-                return False
-        
-            if self.rp() == False:
-                print(self.lexer_obj.peek())
-                self.go_back()
-                self.parser_log.add_point(
-                    self.lexer_obj.pos, 'Expected ")"', self.lexer_obj.peek(), 3
-                )
-                return False
+        if self.lp() is False:
+            self.go_back()
+            self.parser_log.add_point(
+                self.lexer_obj.pos, 'Expected "("', self.lexer_obj.peek(), 2
+            )
+            return False
 
-            if self.lcp() == False:
-                self.go_back()
-                return False
+        if (arguments := self.arguments(func_obj)) is False:
+            return False
 
-            block = self.block()
+        if self.rp() is False:
+            self.go_back()
+            self.parser_log.add_point(
+                self.lexer_obj.pos, 'Expected ")"', self.lexer_obj.peek(), 3
+            )
+            return False
 
-            func_obj.add_code(block)
-            print(func_obj.kwargs, func_obj.kwargs, func_obj.pos_args, func_obj.optional_pos_arg)
-            return func_obj
+        if self.lcp() is False:
+            self.go_back()
+            return False
+
+        block = self.block()
+
+        func_obj.add_code(block)
+        print(func_obj.kwargs, func_obj.kwargs, func_obj.pos_args, func_obj.optional_pos_arg)
+        return func_obj
 
     def arguments(self, function_obj):
         # arguments: {ID ","} {question_id ","} {kwarg ","}
@@ -53,7 +53,7 @@ class Functions:
             if (_id := self.lexer_obj.peek()).type == "IDENTIFIER":
                 self.lexer_obj.consume()
                 if self.lexer_obj.peek().type != "QUESTION":
-                    if self.comma() != False:
+                    if self.comma() is not False:
                         function_obj.add_pos_arg(_id)
                     else:
                         self.parser_log.add_point(
@@ -66,8 +66,8 @@ class Functions:
                 break
 
         while True:
-            if (_id := self.question_id()) != False:
-                if self.comma() != False:
+            if (_id := self.question_id()) is not False:
+                if self.comma() is not False:
                     function_obj.add_optional_pos_arg(_id)
                 else:
                     self.parser_log.add_point(
@@ -77,8 +77,8 @@ class Functions:
                 break
 
         while True:
-            if (kwarg := self.kwarg()) != False:
-                if self.comma() != False:
+            if (kwarg := self.kwarg()) is not False:
+                if self.comma() is not False:
                     function_obj.add_kwarg(kwarg)
                 else:
                     self.go_back()
@@ -94,7 +94,7 @@ class Functions:
         # question_id: ID "?"
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
-        if (_id := self.ID()) == False:
+        if (_id := self.ID()) is False:
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected an ID", self.lexer_obj.peek(), 1
             )
@@ -120,7 +120,7 @@ class Functions:
         position = self.lexer_obj.pos
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
-        if (_id := self.ID()) == False:
+        if (_id := self.ID()) is False:
             self.go_back()
             return False
 
@@ -131,7 +131,7 @@ class Functions:
             self.go_back()
             return False
 
-        if (expression := self.expression()) == False:
+        if (expression := self.expression()) is False:
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected an expression", self.lexer_obj.peek(), 2
             )
