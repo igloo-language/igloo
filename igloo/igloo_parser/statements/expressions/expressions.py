@@ -45,6 +45,3 @@ class Expressions:
                     is_true = False
 
         return term
-
-    def term(self):
-        pass

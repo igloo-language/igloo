@@ -19,6 +19,7 @@ def eval_expression(self, token):
         "Mod": self.eval_modulo,
         "Div": self.eval_division,
         "Negative": self.eval_negative,
+        "Null": self.eval_null,
     }
     value = "An error occurred"
     if token.__class__.__name__ not in type_to_function:
@@ -51,6 +52,10 @@ def eval_division(self, token):
 
 def eval_negative(self, token):
     return dt.Integer(-int(token.value.value), token.pos)
+
+
+def eval_null(self, token):
+    return dt.Null(token.value, token.pos)
 
 
 def eval_id(self, token):

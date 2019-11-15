@@ -3,8 +3,16 @@ import errors
 import igloo_parser.statements as statements
 
 
-class Parser(statements.Maths, statements.Functions, statements.Expressions, statements.InlineCode,
-             statements.Terminals, statements.Literals, statements.VariableAssignment):
+class Parser(
+    statements.Maths,
+    statements.Functions,
+    statements.Expressions,
+    statements.InlineCode,
+    statements.Terminals,
+    statements.Literals,
+    statements.VariableAssignment,
+    statements.Return,
+):
     def __init__(self, lexer_obj, global_objects):
         self.lexer_obj = lexer_obj
         self.parser_log = dt.BackTracker(global_objects)
@@ -22,15 +30,16 @@ class Parser(statements.Maths, statements.Functions, statements.Expressions, sta
         return self.ast
 
     def block(self):
-        print(self.lexer_obj.peek())
         code = []
         _statements = [
             self.variable_assignment_statement,
             self.inline_code_statement,
             self.function_declaration_statement,
+            self.function_run_statement,
+            self.return_statement,
+            self.expression_return,
         ]
-        is_not_break = True
-        while is_not_break:
+        while True:
             for function in _statements:
                 statement = function()
                 if statement is not False:
@@ -43,20 +52,6 @@ class Parser(statements.Maths, statements.Functions, statements.Expressions, sta
                 continue
             if self.lexer_obj.peek().type == "EOF" and not self.parser_log.logs:
                 break
-            elif fail:
-                if self.rcp():
-                    break
-                elif self.parser_log.logs:
-                    self.parser_log.throw()
-                else:
-                    self.parser_log.add_point(
-                        self.lexer_obj.pos,
-                        "Expected valid statement",
-                        self.lexer_obj.peek(),
-                        float("inf"),
-                    )
-                    break
-            else:
-                continue
-
+            if fail:
+                break
         return code

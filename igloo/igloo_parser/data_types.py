@@ -27,10 +27,7 @@ class BackTracker:
         if self.logs:
             values = self.logs.values()
             max_values = [
-                key
-                for m in [max(values)]
-                for key, val in self.logs.items()
-                if val == m
+                key for m in [max(values)] for key, val in self.logs.items() if val == m
             ]
             return max_values
         else:
@@ -71,6 +68,12 @@ class Statement:
         self.type = _type
 
 
+class ReturnStatement(Statement):
+    def __init__(self, expression, pos):
+        self.expression = expression
+        self.pos = pos
+
+
 class VariableAssignment(Statement):
     def __init__(self, id, value, pos):
         self.id = id
@@ -84,26 +87,25 @@ class InlineCode(Statement):
         self.pos = pos
 
 
-class FunctionDefine(Statement):
-    def __init__(self, id, pos, pos_args=[], optional_pos_arg=[], kwargs=[], code=[]):
-        self.id = id
-        self.pos = pos
+class Arguments:
+    def __init__(self, pos_args, optional_pos_args, kwargs):
         self.pos_args = pos_args
-        self.optional_pos_arg = optional_pos_arg
+        self.optional_pos_args = optional_pos_args
         self.kwargs = kwargs
+
+
+class RunArguments:
+    def __init__(self, pos_args, kwargs):
+        self.pos_args = pos_args
+        self.kwargs = kwargs
+
+
+class FunctionDefine(Statement):
+    def __init__(self, _id, arguments, code, pos):
+        self.id = _id
+        self.pos = pos
+        self.arguments = arguments
         self.code = code
-
-    def add_pos_arg(self, element):
-        self.pos_args.append(element)
-
-    def add_optional_pos_arg(self, element):
-        self.optional_pos_arg.append(element)
-
-    def add_kwarg(self, kwarg):
-        self.kwargs.append(kwarg)
-    
-    def add_code(self, code):
-        self.code += code
 
 
 class Expression:
@@ -183,4 +185,17 @@ class String(Expression):
 class Inline(Expression):
     def __init__(self, value, pos):
         self.value = value[1:-1]
+        self.pos = pos
+
+
+class Null(Expression):
+    def __init__(self, value, pos):
+        self.value = value
+        self.pos = pos
+
+
+class FunctionRun(Statement):
+    def __init__(self, _id, arguments, pos):
+        self.id = _id
+        self.arguments = arguments
         self.pos = pos

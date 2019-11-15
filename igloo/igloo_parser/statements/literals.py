@@ -10,6 +10,10 @@ class Literals:
         # To parse "func"
         return self.literal("FUNC")
 
+    def return_keyword(self):
+        # To parse "func"
+        return self.literal("RETURN")
+
     def EOF(self):
         # To parse "eof"
         return self.literal("EOF")

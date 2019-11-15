@@ -1,5 +1,6 @@
 import igloo_parser.data_types as dt
 
+
 class Maths:
     def item(self):
         # item: integer
@@ -10,8 +11,16 @@ class Maths:
         if (value := self.ID()) is not False:
             return value
 
-        # item: STRING
+        # item: String
         if (value := self.string()) is not False:
+            return value
+
+        # item: Nill
+        if (value := self.null()) is not False:
+            return value
+
+        # item: function_run
+        if (value := self.function_run()) is not False:
             return value
 
         # item: "(" expression ")"

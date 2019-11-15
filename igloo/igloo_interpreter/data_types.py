@@ -47,8 +47,21 @@ class String(Type):
         self.pos = pos
 
 
+class Null(Type):
+    def __init__(self, value, pos):
+        self.value = value
+        self.pos = pos
+
+
 class Function:
-    def __init__(self, pos_args, optional_pos_args, kwargs):
-        self.pos_args = pos_args
-        self.optional_pos_args = optional_pos_args
-        self.kwargs = kwargs
+    def __init__(self, _id, arguments, code, global_objects, pos):
+        self.id = _id
+        self.arguments = arguments
+        self.code = code
+        self.pos = pos
+        self.local_variables = {}
+        self.global_objects = global_objects
+
+    def run(self, pos_arguments, optional_pos_arguments, kwargs):
+        # TODO: Make this work
+        print(pos_arguments, optional_pos_arguments, kwargs)

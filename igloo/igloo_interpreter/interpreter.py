@@ -10,6 +10,7 @@ class Program:
         variable_assignment,
         inline_code,
         function_define,
+        return_statement,
         eval_expression,
         eval_int,
         eval_id_name,
@@ -21,6 +22,7 @@ class Program:
         eval_division,
         eval_negative,
         eval_string,
+        eval_null,
     )
 
     def __init__(self, filename, text):
@@ -45,10 +47,14 @@ class Program:
         self.statement_dict = {
             pdt.VariableAssignment: self.variable_assignment,
             pdt.InlineCode: self.inline_code,
-            pdt.FunctionDefine: self.function_define
+            pdt.FunctionDefine: self.function_define,
+            pdt.FunctionRun: self.
         }
 
     def run(self):
         for statement in self.ast.statements:
             self.global_objects["POS"] = statement.pos
-            self.statement_dict[type(statement)](statement)
+            if isinstance(statement, pdt.ReturnStatement):
+                return self.return_statement(statement)
+            else:
+                self.statement_dict[type(statement)](statement)

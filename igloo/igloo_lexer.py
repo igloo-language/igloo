@@ -7,6 +7,7 @@ DEFULT_IGLOO_LEXER = [
     (r"//.*", "COMMENT"),
     (r"func", "FUNC"),
     (r"return", "RETURN"),
+    (r"null", "NULL"),
     (r"[a-zA-Z_][a-zA-Z_0-9]*", "IDENTIFIER"),
     (r'".*?"', "STRING"),
     (r"`.*?`", "INLINE"),
@@ -189,7 +190,7 @@ class Lexer:
     def consume(self):
         self.old_pos = self.pos
         self.pos = self.next_pos
-    
+
     def go_back(self):
         self.pos = self.old_pos
 
