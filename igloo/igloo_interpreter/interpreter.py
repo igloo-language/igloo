@@ -11,6 +11,7 @@ class Program:
         inline_code,
         function_define,
         return_statement,
+        function_run,
         eval_expression,
         eval_int,
         eval_id_name,
@@ -48,7 +49,7 @@ class Program:
             pdt.VariableAssignment: self.variable_assignment,
             pdt.InlineCode: self.inline_code,
             pdt.FunctionDefine: self.function_define,
-            pdt.FunctionRun: self.
+            pdt.FunctionRun: self.function_run
         }
 
     def run(self):
