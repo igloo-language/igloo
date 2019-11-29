@@ -7,9 +7,9 @@ class UndefinedFunction(errors.Error):
 
 def function_run(self, statement):
     if statement.id in self.global_objects["OBJECTS"]:
-        self.global_objects["OBJECTS"][statement.id].function_run(statement.arguments)
+        self.global_objects["OBJECTS"][statement.id].function_run(statement.arguments, statement.pos)
     elif statement.id in self.objects:
-        self.objects[statement.id].function_run(statement.arguments)
+        self.objects[statement.id].function_run(statement.arguments, statement.pos)
     else:
         self.error_log.add_point(
             self.global_objects["FILENAME"], self.global_objects["CONTENTS"], statement.id.pos

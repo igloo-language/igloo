@@ -54,4 +54,5 @@ class Parser(
                 break
             if fail:
                 break
+            self.parser_log.reset()
         return code

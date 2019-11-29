@@ -86,7 +86,7 @@ class Function(Program):
         self.pos = pos
         self.objects = {}
 
-    def get_argument_names(self, arguments):
+    def get_argument_names(self, arguments, pos):
         final_objects = {}
 
         num_pos_args_run = len(arguments.pos_args)
@@ -102,7 +102,7 @@ class Function(Program):
             self.global_objects["ERROR"].add_point(
                 self.global_objects["FILENAME"],
                 self.global_objects["CONTENTS"],
-                arguments.pos_args[-1].pos,
+                arguments.pos_args[-1].pos if len(arguments.pos_args) != 0 else pos[1],
             )
             self.global_objects["ERROR"].throw(
                 PositionalArgumentError(
@@ -166,6 +166,6 @@ class Function(Program):
 
         return final_objects
 
-    def function_run(self, arguments):
-        self.objects.update(self.get_argument_names(arguments))
+    def function_run(self, arguments, pos):
+        self.objects.update(self.get_argument_names(arguments, pos))
         self.run(self.code)

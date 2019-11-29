@@ -4,13 +4,14 @@ import igloo_parser.data_types as dt
 class Functions:
     def function_run_statement(self):
         # function_run_statement: ID "(" arguments ")" ";"
-        position = self.lexer_obj.pos
+        position = [self.lexer_obj.pos]
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
         if (_id := self.ID()) is False:
             self.go_back()
             return False
-
+        
+        position.append(self.lexer_obj.pos)
         if self.lp() is False:
             self.go_back()
             self.parser_log.add_point(
@@ -18,15 +19,19 @@ class Functions:
             )
             return False
 
+        position.append(self.lexer_obj.pos)
         if (arguments := self.arguments_running()) is False:
             return False
 
+        position.append(self.lexer_obj.pos)
         if self.rp() is False:
             self.go_back()
             self.parser_log.add_point(
                 self.lexer_obj.pos, 'Expected `)`', self.lexer_obj.peek(), 2
             )
             return False
+        
+        position.append(self.lexer_obj.pos)
         if not self.semicolon():
             self.parser_log.add_point(
                 self.lexer_obj.pos, 'Expected `;`', self.lexer_obj.peek(), 3
@@ -38,13 +43,15 @@ class Functions:
 
     def function_declaration_statement(self):
         # function_declaration_statement: func ID "(" arguments ")" "{" block "}"
-        position = self.lexer_obj.pos
+        position = [self.lexer_obj.pos]
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
 
+        position.append(self.lexer_obj.pos)
         if self.func() is False:
             self.go_back()
             return False
 
+        position.append(self.lexer_obj.pos)
         if (_id := self.ID()) is False:
             self.go_back()
             self.parser_log.add_point(
@@ -52,6 +59,7 @@ class Functions:
             )
             return False
 
+        position.append(self.lexer_obj.pos)
         if self.lp() is False:
             self.go_back()
             self.parser_log.add_point(
@@ -59,9 +67,11 @@ class Functions:
             )
             return False
 
+        position.append(self.lexer_obj.pos)
         if (arguments := self.arguments()) is False:
             return False
 
+        position.append(self.lexer_obj.pos)
         if self.rp() is False:
             self.go_back()
             self.parser_log.add_point(
@@ -69,12 +79,15 @@ class Functions:
             )
             return False
 
+        position.append(self.lexer_obj.pos)
         if self.lcp() is False:
             self.go_back()
             return False
 
+        position.append(self.lexer_obj.pos)
         block = self.block()
 
+        position.append(self.lexer_obj.pos)
         if self.rcp() is False:
             self.go_back()
             return False
@@ -157,7 +170,6 @@ class Functions:
                                 self.lexer_obj.go_back()
                             else:
                                 pos_args.append(_id)
-                            break
                 else:
                     self.lexer_obj.go_back()
                     break

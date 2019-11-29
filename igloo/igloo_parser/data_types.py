@@ -44,6 +44,9 @@ class BackTracker:
             self.get_max_parses()[0].location,
         )
         self.logger.throw(self)
+    
+    def reset(self):
+        self.logs = {}
 
     def __str__(self):
         max_values = self.get_max_parses()
