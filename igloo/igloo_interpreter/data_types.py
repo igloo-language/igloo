@@ -27,6 +27,12 @@ class Type:
 
     def __str__(self):
         return str(self.value)
+    
+    def debug(self):
+        return f"{self.__class__.__name__}: {self.value}"
+    
+    def string(self):
+        return f"{self.value}"
 
 
 class Integer(Type):
@@ -45,23 +51,12 @@ class String(Type):
     def __init__(self, value, pos):
         self.value = str(value)
         self.pos = pos
+    
+    def string(self):
+        return f"{self.value[1:-1]}"
 
 
 class Null(Type):
     def __init__(self, value, pos):
         self.value = value
         self.pos = pos
-
-
-class Function:
-    def __init__(self, _id, arguments, code, global_objects, pos):
-        self.id = _id
-        self.arguments = arguments
-        self.code = code
-        self.pos = pos
-        self.local_variables = {}
-        self.global_objects = global_objects
-
-    def run(self, pos_arguments, optional_pos_arguments, kwargs):
-        # TODO: Make this work
-        print(pos_arguments, optional_pos_arguments, kwargs)

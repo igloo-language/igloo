@@ -14,7 +14,7 @@ class Functions:
         if self.lp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected "("', self.lexer_obj.peek(), 1
+                self.lexer_obj.pos, 'Expected `(`', self.lexer_obj.peek(), 1
             )
             return False
 
@@ -24,12 +24,12 @@ class Functions:
         if self.rp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected ")"', self.lexer_obj.peek(), 2
+                self.lexer_obj.pos, 'Expected `)`', self.lexer_obj.peek(), 2
             )
             return False
         if not self.semicolon():
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected ";"', self.lexer_obj.peek(), 3
+                self.lexer_obj.pos, 'Expected `;`', self.lexer_obj.peek(), 3
             )
             self.go_back()
             return False
@@ -55,7 +55,7 @@ class Functions:
         if self.lp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected "("', self.lexer_obj.peek(), 2
+                self.lexer_obj.pos, 'Expected `(`', self.lexer_obj.peek(), 2
             )
             return False
 
@@ -65,7 +65,7 @@ class Functions:
         if self.rp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected ")"', self.lexer_obj.peek(), 3
+                self.lexer_obj.pos, 'Expected `)`', self.lexer_obj.peek(), 3
             )
             return False
 
@@ -82,14 +82,12 @@ class Functions:
         return dt.FunctionDefine(_id, arguments, block, position)
 
     def arguments_running(self):
-        # arguments_running: {ID ","} {kwargs ","}
+        # arguments_running: {ID ","} {kwarg ","}
         pos_args = []
         kwargs = []
 
-        # TODO: Fix it
         while True:
             pos = self.lexer_obj.pos
-            print(self.lexer_obj.peek())
             if (expr := self.expression()) is not False:
                 if self.comma():
                     pos_args.append(expr)
@@ -103,7 +101,10 @@ class Functions:
                         )
                         self.parser_log.throw()
                     else:
-                        self.lexer_obj.pos = pos
+                        if self.lexer_obj.peek().type == "EQUALS":
+                            self.lexer_obj.go_back()
+                        else:
+                            pos_args.append(expr)
                         break
             else:
                 break
@@ -122,7 +123,7 @@ class Functions:
                         )
                         self.parser_log.throw()
                     else:
-                        kwargs.append(expr)
+                        kwargs.append(kwarg)
                         break
             else:
                 break
@@ -138,6 +139,7 @@ class Functions:
         while True:
             if (_id := self.lexer_obj.peek()).type == "IDENTIFIER":
                 self.lexer_obj.consume()
+                _id = dt.ID(_id.value, _id.pos)
                 if self.lexer_obj.peek().type != "QUESTION":
                     if self.comma() is not False:
                         pos_args.append(_id)
@@ -151,7 +153,10 @@ class Functions:
                             )
                             self.parser_log.throw()
                         else:
-                            pos_args.append(_id)
+                            if self.lexer_obj.peek().type == "EQUALS":
+                                self.lexer_obj.go_back()
+                            else:
+                                pos_args.append(_id)
                             break
                 else:
                     self.lexer_obj.go_back()
@@ -171,7 +176,6 @@ class Functions:
                             self.lexer_obj.peek(),
                             1,
                         )
-                        print("hi")
                         self.parser_log.throw()
                     else:
                         optional_pos_args.append(_id)
@@ -213,7 +217,7 @@ class Functions:
 
         if not (self.lexer_obj.peek().type == "QUESTION") and not self.equals():
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected "?"', self.lexer_obj.peek(), 2
+                self.lexer_obj.pos, 'Expected `?`', self.lexer_obj.peek(), 2
             )
             self.go_back()
             return False
@@ -236,7 +240,7 @@ class Functions:
 
         if not self.equals():
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected "="', self.lexer_obj.peek(), 1
+                self.lexer_obj.pos, 'Expected `=`', self.lexer_obj.peek(), 1
             )
             self.go_back()
             return False

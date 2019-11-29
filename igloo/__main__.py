@@ -6,7 +6,7 @@ import argparse
 
 def run_program(filename, text):
     program = igloo_interpreter.Program(filename, text)
-    program.run()
+    program.run(program.ast.statements)
 
 
 def read_file(filename):

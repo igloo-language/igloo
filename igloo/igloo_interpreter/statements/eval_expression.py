@@ -65,7 +65,7 @@ def eval_id(self, token):
         self.error_log.add_point(
             self.global_objects["FILENAME"], self.global_objects["CONTENTS"], token.pos
         )
-        self.error_log.throw(UndefinedVariable(f'Undefined variable "{token.value}"'))
+        self.error_log.throw(UndefinedVariable(f'Undefined variable `{token.value}`'))
 
 
 def eval_id_name(self, token):

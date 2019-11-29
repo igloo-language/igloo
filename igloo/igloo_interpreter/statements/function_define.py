@@ -1,8 +1,12 @@
-import igloo_interpreter.data_types as dt
+import igloo_interpreter.interpreter as interpreter
 
 
 def function_define(self, statement):
-    function = dt.Function(
-        statement.id, statement.arguments, statement.code, self.global_objects, statement.pos
+    function = interpreter.Function(
+        statement.id,
+        statement.arguments,
+        statement.code,
+        self.global_objects,
+        statement.pos,
     )
-    self.objects[statement.id] = function
+    self.global_objects["OBJECTS"][statement.id] = function

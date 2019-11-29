@@ -52,7 +52,7 @@ class BackTracker:
         red = "\033[91m"
         white = "\033[0m"
         bold = "\033[1m"
-        self.error = f'{red}{bold}SyntaxError: {" or ".join(list(set(map(lambda x: x.message, max_values)))).capitalize()} found "{max_values[0].token.value}"{white}'
+        self.error = f'{red}{bold}SyntaxError: {" or ".join(list(set(map(lambda x: x.message, max_values)))).capitalize()} found `{max_values[0].token.value}`{white}'
         return self.error
 
 
@@ -114,12 +114,22 @@ class Expression:
         self.value = value
         self.pos = pos
 
+    def __hash__(self):
+        return hash(self.value)
+
+    def __eq__(self, first):
+        return self.value == first.value
+
 
 class Kwarg:
     def __init__(self, _id, value, pos):
         self.id = _id
         self.value = value
         self.pos = pos
+    def __hash__(self):
+        return hash(self.id.value)
+    def __eq__(self, other):
+        return self.value == other.value
 
 
 class Negative:

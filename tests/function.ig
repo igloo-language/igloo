@@ -1,6 +1,13 @@
-func test(foo, ha, bar?, koo?, car=10, color="red") {
-    x = 10;
-    return x;
+func printd(text) {
+    `print(self.objects[ID("text", 1)].debug())`;
 }
 
-test(10, 10900, 20, color="black");
+func println(text) {
+    `print(self.objects[ID("text", 1)].string())`;
+}
+
+printd("10");
+
+println("10");
+
+aiwdj();
