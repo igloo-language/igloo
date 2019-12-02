@@ -1,5 +1,6 @@
 import igloo_interpreter.data_types as idt
 import igloo_parser.data_types as pdt
+from .statements import Expressions, Statements
 import igloo_lexer
 import igloo_parser
 import errors
@@ -11,27 +12,7 @@ class PositionalArgumentError(errors.Error):
         self.error = self.__class__.__name__
 
 
-class Program:
-    from igloo_interpreter.statements import (
-        variable_assignment,
-        inline_code,
-        function_define,
-        return_statement,
-        function_run,
-        eval_expression,
-        eval_int,
-        eval_id_name,
-        eval_id,
-        eval_multiplication,
-        eval_modulo,
-        eval_addition,
-        eval_subtraction,
-        eval_division,
-        eval_negative,
-        eval_string,
-        eval_null,
-    )
-
+class Program(Expressions, Statements):
     def __init__(self, filename, text, setup=True):
         if setup:
             self.error_log = errors.Logger({})
@@ -71,6 +52,7 @@ class Program:
                 return self.return_statement(statement)
             else:
                 self.statement_dict[type(statement)](statement)
+        return idt.Null(self.global_objects["POS"])
 
 
 class Function(Program):
@@ -95,8 +77,8 @@ class Function(Program):
         num_pos_args = len(self.arguments.pos_args)
         num_opt_pos_args = len(self.arguments.optional_pos_args)
         num_kwargs = len(self.arguments.kwargs)
-    
-        print_ids = lambda list_obj: ", ".join([f'`{_id.value}`' for _id in list_obj])
+
+        print_ids = lambda list_obj: ", ".join([f"`{_id.value}`" for _id in list_obj])
 
         if num_pos_args_run < num_pos_args:
             self.global_objects["ERROR"].add_point(
@@ -110,7 +92,7 @@ class Function(Program):
                 )
             )
 
-        elif (num_pos_args_run > num_pos_args + num_opt_pos_args):
+        elif num_pos_args_run > num_pos_args + num_opt_pos_args:
             self.global_objects["ERROR"].add_point(
                 self.global_objects["FILENAME"],
                 self.global_objects["CONTENTS"],
@@ -121,18 +103,26 @@ class Function(Program):
                     f"Too many positional/optional arguments; additional arguments passed: {print_ids(arguments.pos_args[num_pos_args+num_opt_pos_args:num_pos_args_run])}"
                 )
             )
-    
-        positional_arguments = [
-            self.eval_expression(token) for token in arguments.pos_args[:num_pos_args]
-        ]
-        positional_optional_arguments = [
-            self.eval_expression(token) for token in arguments.pos_args[num_pos_args:]
-        ]
 
-        positional_arguments_dictionary = dict(zip(self.arguments.pos_args, positional_arguments))
-        positional_optional_arguments_dictionary = dict(zip(self.arguments.optional_pos_args[num_pos_args_run-num_pos_args-1:], positional_optional_arguments))
+        positional_arguments = arguments.pos_args[:num_pos_args]
+        positional_optional_arguments = arguments.pos_args[num_pos_args:]
 
-        kwargs_dictionary = dict(zip([kwarg.id for kwarg in self.arguments.kwargs], [kwarg.value for kwarg in self.arguments.kwargs]))
+        positional_arguments_dictionary = dict(
+            zip(self.arguments.pos_args, positional_arguments)
+        )
+        positional_optional_arguments_dictionary = dict(
+            zip(
+                self.arguments.optional_pos_args[num_pos_args_run - num_pos_args - 1 :],
+                positional_optional_arguments,
+            )
+        )
+
+        kwargs_dictionary = dict(
+            zip(
+                [kwarg.id for kwarg in self.arguments.kwargs],
+                [kwarg.value for kwarg in self.arguments.kwargs],
+            )
+        )
 
         kwargs_names = set([kwarg.id for kwarg in self.arguments.kwargs])
         kwargs_names_run = set([kwarg.id for kwarg in arguments.kwargs])
@@ -151,8 +141,8 @@ class Function(Program):
                     f"Unrecognised keyword arguments; additional keyword arguments passed: {print_ids(list(kwargs_names_run-kwargs_names))}"
                 )
             )
-    
-        defaults = list(kwargs_names-kwargs_names_run)
+
+        defaults = list(kwargs_names - kwargs_names_run)
 
         for kwarg in arguments.kwargs:
             final_objects[kwarg.id] = kwarg.value
@@ -168,4 +158,4 @@ class Function(Program):
 
     def function_run(self, arguments, pos):
         self.objects.update(self.get_argument_names(arguments, pos))
-        self.run(self.code)
+        return self.run(self.code)

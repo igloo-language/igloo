@@ -27,10 +27,10 @@ class Type:
 
     def __str__(self):
         return str(self.value)
-    
+
     def debug(self):
         return f"{self.__class__.__name__}: {self.value}"
-    
+
     def string(self):
         return f"{self.value}"
 
@@ -51,12 +51,12 @@ class String(Type):
     def __init__(self, value, pos):
         self.value = str(value)
         self.pos = pos
-    
+
     def string(self):
         return f"{self.value[1:-1]}"
 
 
 class Null(Type):
-    def __init__(self, value, pos):
-        self.value = value
+    def __init__(self, pos):
+        self.value = "Null"
         self.pos = pos

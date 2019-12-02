@@ -9,10 +9,20 @@
 
 <br>
 
-<p align = 'center'>Currently, Igloo only has a (slow) implementation in Python, but in the future, may have a (faster) implementation in Rust.</p>
+<p align = 'center'>Currently, Igloo only has a (slow) implementation in Python 3.8, but in the future, may have a (faster) implementation in Rust.</p>
 
 # An Example
 
 ```igloo
+// Assign the value `10` to `x`
 x = 10;
+```
+
+# Getting Started
+
+To use Igloo, clone download this repository locally.
+
+```bash
+$ cd igloo # go into igloo repository folder
+$ python3.8 igloo/ igloo_file.ig # filename
 ```

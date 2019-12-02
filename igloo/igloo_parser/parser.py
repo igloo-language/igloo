@@ -37,7 +37,7 @@ class Parser(
             self.function_declaration_statement,
             self.function_run_statement,
             self.return_statement,
-            self.expression_return,
+            # self.expression_return,
         ]
         while True:
             for function in _statements:
@@ -54,5 +54,5 @@ class Parser(
                 break
             if fail:
                 break
-            self.parser_log.reset()
+            self.parser_log.clear()
         return code

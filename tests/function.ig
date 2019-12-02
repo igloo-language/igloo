@@ -10,11 +10,13 @@ func println(text) {
     `print(self.objects[ID("text", 1)].string())`;
 }
 
-func five(text) {
-    return 5
+func five() {
+    return 5;
 }
 
 printd("10");
 
 println("10");
 
+x = five();
+println(x);

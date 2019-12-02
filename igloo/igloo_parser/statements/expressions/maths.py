@@ -3,6 +3,10 @@ import igloo_parser.data_types as dt
 
 class Maths:
     def item(self):
+        # item: function_run
+        if (value := self.function_run()) is not False:
+            return value
+
         # item: integer
         if (value := self.integer()) is not False:
             return value
@@ -17,10 +21,6 @@ class Maths:
 
         # item: Nill
         if (value := self.null()) is not False:
-            return value
-
-        # item: function_run
-        if (value := self.function_run()) is not False:
             return value
 
         # item: "(" expression ")"

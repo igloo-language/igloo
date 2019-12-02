@@ -2,7 +2,8 @@ import igloo_parser.data_types as dt
 
 
 class Return:
-    def expression_return(self):
+    # conflicts with normal function run statement
+    """def expression_return(self):
         # expression_return: expr ";"
         position = [self.lexer_obj.pos]
         self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
@@ -19,7 +20,7 @@ class Return:
             self.go_back()
             return False
 
-        return dt.ReturnStatement(expr, position)
+        return dt.ReturnStatement(expr, position)"""
 
     def return_statement(self):
         # return_statement: return expr? ";"
@@ -40,7 +41,7 @@ class Return:
         position.append(self.lexer_obj.pos)
         if not self.semicolon():
             self.point = self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected `;`', self.lexer_obj.peek(), 1
+                self.lexer_obj.pos, "Expected `;`", self.lexer_obj.peek(), 1
             )
             self.go_back()
             return False

@@ -29,9 +29,19 @@ class BackTracker:
             max_values = [
                 key for m in [max(values)] for key, val in self.logs.items() if val == m
             ]
-            return max_values
+
+            locations = [value.location for value in max_values]
+            dictionary = dict(zip(max_values, locations))
+            final_max_values = [
+                key
+                for m in [max(locations)]
+                for key, val in dictionary.items()
+                if val == m
+            ]
+
+            return final_max_values
         else:
-            print("Oh noes something went wrong")
+            print("Oh no something went wrong in data_types.py parser")
             quit()
 
     def clear(self):
@@ -44,9 +54,6 @@ class BackTracker:
             self.get_max_parses()[0].location,
         )
         self.logger.throw(self)
-    
-    def reset(self):
-        self.logs = {}
 
     def __str__(self):
         max_values = self.get_max_parses()
@@ -55,6 +62,7 @@ class BackTracker:
         red = "\033[91m"
         white = "\033[0m"
         bold = "\033[1m"
+
         self.error = f'{red}{bold}SyntaxError: {" or ".join(list(set(map(lambda x: x.message, max_values)))).capitalize()} found `{max_values[0].token.value}`{white}'
         return self.error
 
@@ -129,8 +137,10 @@ class Kwarg:
         self.id = _id
         self.value = value
         self.pos = pos
+
     def __hash__(self):
         return hash(self.id.value)
+
     def __eq__(self, other):
         return self.value == other.value
 

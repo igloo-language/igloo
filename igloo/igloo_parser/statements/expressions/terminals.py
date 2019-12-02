@@ -40,7 +40,7 @@ class Terminals:
         if self.lp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected `(`', self.lexer_obj.peek(), 1
+                self.lexer_obj.pos, "Expected `(`", self.lexer_obj.peek(), 1
             )
             return False
 
@@ -50,7 +50,7 @@ class Terminals:
         if self.rp() is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected `)`', self.lexer_obj.peek(), 2
+                self.lexer_obj.pos, "Expected `)`", self.lexer_obj.peek(), 2
             )
             return False
 

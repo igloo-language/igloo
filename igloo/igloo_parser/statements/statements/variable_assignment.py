@@ -14,7 +14,7 @@ class VariableAssignment:
         position.append(self.lexer_obj.pos)
         if not self.equals():
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected `=`', self.lexer_obj.peek(), 1
+                self.lexer_obj.pos, "Expected `=`", self.lexer_obj.peek(), 1
             )
             self.go_back()
             return False
@@ -30,7 +30,7 @@ class VariableAssignment:
         position.append(self.lexer_obj.pos)
         if not self.semicolon():
             self.parser_log.add_point(
-                self.lexer_obj.pos, 'Expected `;`', self.lexer_obj.peek(), 3
+                self.lexer_obj.pos, "Expected `;`", self.lexer_obj.peek(), 3
             )
             self.go_back()
             return False
