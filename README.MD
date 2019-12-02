@@ -5,7 +5,7 @@
 </p>
 
 
-<strong align = 'center'>Igloo is a high level syntax oriented programming language in which you can change the syntax of the language within itself.</strong>
+<p align = 'center'><b>Igloo is a high level syntax oriented programming language in which you can change the syntax of the language within itself.</b></p>
 
 <br>
 
