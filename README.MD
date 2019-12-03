@@ -30,6 +30,6 @@ $ cd igloo # go into igloo repository folder
 $ python3.8 igloo/ igloo_file.ig # filename
 ```
 
-# Compiled Realeases
+# Compiled Releases
 
-*Compiled realeases are coming soon.*
+*Compiled releases are coming soon.*
