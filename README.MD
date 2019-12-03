@@ -1,15 +1,12 @@
-<h1 align = 'center'>Igloo</h1>
+<h1 align = 'center'>The Igloo Programming Language</h1>
 
 <p align = 'center'>
   <img src = '/images/igloo_logo.png'>
 </p>
 
-
-<p align = 'center'><b>Igloo is a high level syntax oriented programming language in which you can change the syntax of the language within itself.</b></p>
+<p align = 'center'><b>A High Level and Syntax Oriented Programming Language.</b></p>
 
 <br>
-
-<p align = 'center'>Currently, Igloo only has a (slow) implementation in Python 3.8, but in the future, may have a (faster) implementation in Rust.</p>
 
 # An Example
 
