@@ -5,13 +5,13 @@ import errors
 
 DEFULT_IGLOO_LEXER = [
     (r"//.*", "COMMENT"),
-    (r"func", "FUNC"),
-    (r"import", "IMPORT"),
-    (r"return", "RETURN"),
-    (r"null", "NULL"),
-    (r"[a-zA-Z_][a-zA-Z_0-9]*", "IDENTIFIER"),
     (r'".*?"', "STRING"),
     (r"`.*?`", "INLINE"),
+    (r"func\s", "FUNC"),
+    (r"import\s", "IMPORT"),
+    (r"return\s", "RETURN"),
+    (r"null\s", "NULL"),
+    (r"[a-zA-Z_][a-zA-Z_0-9]*", "IDENTIFIER"),
     (r"\d+", "INTEGER"),
     (r"\+", "ADD"),
     (r"\-", "SUBTRACT"),
