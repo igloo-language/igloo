@@ -62,6 +62,12 @@ class Maths:
         # To parse factor
         if (group := self.factor()) is False:
             self.go_back()
+            self.parser_log.add_point(
+                self.lexer_obj.pos,
+                "Expected an expression",
+                self.lexer_obj.peek(),
+                1,
+            )
             return False
 
         # To parse (( "*" | "/" | "%" ) factor)*
@@ -77,6 +83,12 @@ class Maths:
                         break
                     else:
                         self.go_back()
+                        self.parser_log.add_point(
+                            self.lexer_obj.pos,
+                            "Expected an expression",
+                            self.lexer_obj.peek(),
+                            2,
+                        )
                         return False
                 else:
                     is_true = False

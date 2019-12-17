@@ -1,3 +1,32 @@
+class VerboseLogger:
+    def __init__(self, verbose):
+        self.verbose = verbose
+
+    def log(self, message):
+        if self.verbose:
+            print(message)
+
+
+class Objects:
+    def __init__(
+        self,
+        error=None,
+        pos=0,
+        contents="",
+        filename="",
+        objects={},
+        logger=None,
+        verbose=False,
+    ):
+        self.error = error
+        self.pos = pos
+        self.contents = contents
+        self.filename = filename
+        self.objects = objects
+        self.logger = logger
+        self.verbose = verbose
+
+
 class Type:
     def __init__(self, value, _type, pos):
         self.value = value
@@ -58,5 +87,5 @@ class String(Type):
 
 class Null(Type):
     def __init__(self, pos):
-        self.value = "Null"
+        self.value = "null"
         self.pos = pos

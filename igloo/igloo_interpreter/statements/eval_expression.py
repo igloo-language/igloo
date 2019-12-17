@@ -55,16 +55,14 @@ class Expressions:
         return dt.Integer(-int(token.value.value), token.pos)
 
     def eval_null(self, token):
-        return dt.Null(token.value, token.pos)
+        return dt.Null(token.pos)
 
     def eval_id(self, token):
         if self.eval_id_name(token) in self.objects:
             return self.objects[self.eval_id_name(token)]
         elif self.eval_id_name(token) not in self.objects:
             self.error_log.add_point(
-                self.global_objects["FILENAME"],
-                self.global_objects["CONTENTS"],
-                token.pos,
+                self.global_objects.filename, self.global_objects.contents, token.pos,
             )
             self.error_log.throw(
                 UndefinedVariable(f"Undefined variable `{token.value}`")

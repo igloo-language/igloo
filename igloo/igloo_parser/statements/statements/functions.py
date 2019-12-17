@@ -233,7 +233,7 @@ class Functions:
             )
             self.go_back()
             return False
-        
+
         elif not (self.lexer_obj.peek().type == "QUESTION"):
             self.go_back()
             return False

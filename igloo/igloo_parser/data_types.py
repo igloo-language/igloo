@@ -16,7 +16,7 @@ class Block:
 class BackTracker:
     def __init__(self, global_obj):
         self.logs = {}
-        self.logger = global_obj["ERROR"]
+        self.logger = global_obj.error
         self.global_obj = global_obj
         self.error = ""
 
@@ -49,8 +49,8 @@ class BackTracker:
 
     def throw(self):
         self.logger.add_point(
-            self.global_obj["FILENAME"],
-            self.global_obj["CONTENTS"],
+            self.global_obj.filename,
+            self.global_obj.contents,
             self.get_max_parses()[0].location,
         )
         self.logger.throw(self)

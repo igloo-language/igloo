@@ -13,30 +13,36 @@ class PositionalArgumentError(errors.Error):
 
 
 class Program(Expressions, Statements):
-    def __init__(self, filename, text, setup=True):
+    def __init__(self, filename, text, verbose=False, setup=True):
         if setup:
             self.error_log = errors.Logger({})
-            self.global_objects = {
-                "ERROR": self.error_log,
-                "POS": 0,
-                "CONTENTS": text,
-                "FILENAME": filename,
-                "OBJECTS": {},
-            }
+            self.global_objects = idt.Objects(
+                error=self.error_log,
+                pos=0,
+                contents=text,
+                filename=filename,
+                objects={},
+                verbose=verbose,
+            )
+
             self.lx = igloo_lexer.Lexer(
                 igloo_lexer.DEFULT_IGLOO_LEXER,
                 self.global_objects,
                 skip_whitespace=True,
             )
 
+            if self.global_objects.verbose:
+                for token in self.lx.tokens():
+                    print(token)
+            
             self.parser = igloo_parser.Parser(self.lx, self.global_objects)
             self.ast = self.parser.parse()
 
             self.objects = {}
 
-            self.global_objects["OBJECTS"].update({idt.ID("__file", 0): filename})
+            self.global_objects.objects.update({idt.ID("__file", 0): filename})
 
-            self.global_objects["ERROR"].global_obj = self.global_objects
+            self.global_objects.error.global_obj = self.global_objects
 
         self.statement_dict = {
             pdt.VariableAssignment: self.variable_assignment,
@@ -47,24 +53,24 @@ class Program(Expressions, Statements):
 
     def run(self, statements):
         for statement in statements:
-            self.global_objects["POS"] = statement.pos
+            self.global_objects.pos = statement.pos
             if isinstance(statement, pdt.ReturnStatement):
                 return self.return_statement(statement)
             else:
                 self.statement_dict[type(statement)](statement)
-        return idt.Null(self.global_objects["POS"])
+        return idt.Null(self.global_objects.pos)
 
 
 class Function(Program):
     def __init__(self, _id, arguments, code, global_objects, pos):
         Program.__init__(
-            self, global_objects["FILENAME"], global_objects["CONTENTS"], setup=False
+            self, global_objects.filename, global_objects.contents, setup=False
         )
         self.id = _id
         self.arguments = arguments
         self.code = code
         self.global_objects = global_objects
-        self.error_log = global_objects["ERROR"]
+        self.error_log = global_objects.error
         self.pos = pos
         self.objects = {}
 
@@ -81,24 +87,24 @@ class Function(Program):
         print_ids = lambda list_obj: ", ".join([f"`{_id.value}`" for _id in list_obj])
 
         if num_pos_args_run < num_pos_args:
-            self.global_objects["ERROR"].add_point(
-                self.global_objects["FILENAME"],
-                self.global_objects["CONTENTS"],
+            self.global_objects.error.add_point(
+                self.global_objects.filename,
+                self.global_objects.contents,
                 arguments.pos_args[-1].pos if len(arguments.pos_args) != 0 else pos[1],
             )
-            self.global_objects["ERROR"].throw(
+            self.global_objects.error.throw(
                 PositionalArgumentError(
                     f"Missing positional arguments; missing: {print_ids(self.arguments.pos_args[num_pos_args_run:num_pos_args])}"
                 )
             )
 
         elif num_pos_args_run > num_pos_args + num_opt_pos_args:
-            self.global_objects["ERROR"].add_point(
-                self.global_objects["FILENAME"],
-                self.global_objects["CONTENTS"],
+            self.global_objects.error.add_point(
+                self.global_objects.filename,
+                self.global_objects.contents,
                 arguments.pos_args[-1].pos,
             )
-            self.global_objects["ERROR"].throw(
+            self.global_objects.error.throw(
                 PositionalArgumentError(
                     f"Too many positional/optional arguments; additional arguments passed: {print_ids(arguments.pos_args[num_pos_args+num_opt_pos_args:num_pos_args_run])}"
                 )
@@ -131,12 +137,12 @@ class Function(Program):
             error_kwargs = []
             kwargs_names = set([kwarg.id for kwarg in self.arguments.kwargs])
             kwargs_names_run = set([kwarg.id for kwarg in arguments.kwargs])
-            self.global_objects["ERROR"].add_point(
-                self.global_objects["FILENAME"],
-                self.global_objects["CONTENTS"],
+            self.global_objects.error.add_point(
+                self.global_objects.filename,
+                self.global_objects.contents,
                 arguments.kwargs[num_kwargs].pos,
             )
-            self.global_objects["ERROR"].throw(
+            self.global_objects.error.throw(
                 PositionalArgumentError(
                     f"Unrecognised keyword arguments; additional keyword arguments passed: {print_ids(list(kwargs_names_run-kwargs_names))}"
                 )

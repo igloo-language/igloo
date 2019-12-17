@@ -16,16 +16,16 @@ def function_run(self, statement):
             for kwarg in statement.arguments.kwargs
         ],
     )
-    if statement.id in self.global_objects["OBJECTS"]:
-        return self.global_objects["OBJECTS"][statement.id].function_run(
+    if statement.id in self.global_objects.objects:
+        return self.global_objects.objects[statement.id].function_run(
             evaled_arguements, statement.pos
         )
     elif statement.id in self.objects:
         return self.objects[statement.id].function_run(evaled_arguements, statement.pos)
     else:
         self.error_log.add_point(
-            self.global_objects["FILENAME"],
-            self.global_objects["CONTENTS"],
+            self.global_objects.filename,
+            self.global_objects.contents,
             statement.id.pos,
         )
         self.error_log.throw(

@@ -1,4 +1,5 @@
-import "functions";
-//import "no";
-//import "functions::{println, printd}";
-//import "functions::println";
+import function;
+//import no;
+//import function.{println, printd};
+//import function.println;
+//import function.*;

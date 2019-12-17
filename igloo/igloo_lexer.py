@@ -10,7 +10,7 @@ DEFULT_IGLOO_LEXER = [
     (r"func\s", "FUNC"),
     (r"import\s", "IMPORT"),
     (r"return\s", "RETURN"),
-    (r"null\s", "NULL"),
+    (r"null", "NULL"),
     (r"[a-zA-Z_][a-zA-Z_0-9]*", "IDENTIFIER"),
     (r"\d+", "INTEGER"),
     (r"\+", "ADD"),
@@ -23,6 +23,7 @@ DEFULT_IGLOO_LEXER = [
     (r"{", "LCP"),
     (r"}", "RCP"),
     (r"=", "EQUALS"),
+    (r"\.", "DOT"),
     (r",", "COMMA"),
     (r";", "SEMICOLON"),
     (r"\?", "QUESTION"),
@@ -61,14 +62,14 @@ class Lexer:
     def __init__(self, rules, global_objects, skip_whitespace=True):
         idx = 1
         regex_parts = []
-        self.error_logger = global_objects["ERROR"]
+        self.error_logger = global_objects.error
         self.group_type = {}
         self.rules = rules
         self.old_pos = 0
         self.group_pos = 0
         self.pos = 0
-        self.buf = global_objects["CONTENTS"]
-        self.filename = global_objects["FILENAME"]
+        self.buf = global_objects.contents
+        self.filename = global_objects.filename
 
         for regex, _type in self.rules:
             groupname = "GROUP%s" % idx

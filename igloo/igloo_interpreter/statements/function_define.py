@@ -9,4 +9,4 @@ def function_define(self, statement):
         self.global_objects,
         statement.pos,
     )
-    self.global_objects["OBJECTS"][statement.id] = function
+    self.global_objects.objects[statement.id] = function

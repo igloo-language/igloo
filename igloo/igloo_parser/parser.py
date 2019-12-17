@@ -16,9 +16,9 @@ class Parser(
     def __init__(self, lexer_obj, global_objects):
         self.lexer_obj = lexer_obj
         self.parser_log = dt.BackTracker(global_objects)
-        self.error_logger = global_objects["ERROR"]
+        self.error_logger = global_objects.error
         self.ast = dt.Block([])
-        self.filename = global_objects["FILENAME"]
+        self.filename = global_objects.filename
 
     def go_back(self):
         self.lexer_obj.back_checkpoint()
@@ -47,11 +47,13 @@ class Parser(
                     fail = False
                     break
                 fail = True
-            if self.lexer_obj.peek().type == "COMMENT":
+            if self.lexer_obj.peek().type == "COMMENT":  # Comment ignore and pass over
                 self.lexer_obj.consume()
                 continue
-            if self.lexer_obj.peek().type == "EOF" and not self.parser_log.logs:
+            if self.lexer_obj.peek().type == "EOF" and not self.parser_log.logs:  # End of file no error
                 break
-            if fail:
-                break
+            if fail and self.parser_log.logs:  # Fail with bad expression/statement
+                self.parser_log.throw()
+            elif fail and not self.parser_log.logs:  # Empty code
+                pass
         return code

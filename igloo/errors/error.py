@@ -27,9 +27,10 @@ class Logger:
         self.log.append(log)
         return log
 
-    def throw(self, error):
+    def throw(self, error, no_arrow=False):
         print(self)
-        print("^".rjust(self.log[-1].column + 2))
+        if not no_arrow:
+            print("^".rjust(self.log[-1].column + 2))
         print(error)
         quit()
 

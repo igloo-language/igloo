@@ -1,7 +1,7 @@
 // no classes?
 // anything defined here is global
 // - functions, syntaxes, and yes, even variables
-// syntacks
+// igloo
 
 
 // functions
@@ -48,17 +48,16 @@ func main() {
   import "io.println,input"; // imports println and input fromio namespaced
   import "io"; // io::println io::input
 
-  limports "io.dab"
+  limports "io.dab";
 }
 
 // syntax change at runtime inside file for making a statement
 impl statement for {
-  literals = ["{", "}"];
-  wildcard = ["--program--", "--expression--"];
-  consts = {FOR: "foreach", IN: "in"};
-  struct = "FOR --expression-- IN --expression-- '{' --program-- '}'";
+  rule ("for" $expr:i "in" $expr:iter "{" $code "}") {
+    run(i, iter);
+  }
 
-  func run(index, iter, in_loop) {
+  func run(i, iter) {
     i = 0;
     while (len(iter) > i) {
       `self.objects[var.index.value] = var.iter[i]`;
@@ -66,18 +65,22 @@ impl statement for {
       i = i+1;
     }
   }
+  
 }
 
 
 // syntax change at runtime inside file for making an expr
 impl expression int {
-  consts = {"INT": "d+z"};
-  struct = "INT";
+
+  rule ('\d+':value) {
+    run(value)
+  }
 
   // value to return when value is made
   func run(value) {
-   return `intType.thing(var.value)`;
+    `intType.thing(var.value)`
   }
+
   // what to do when expression is added
   func add(arg, arg1) {
     return `intType.arg.value + intType.arg1.value`;
