@@ -8,6 +8,8 @@
 
 <br>
 
+[![Codacy Badge](https://img.shields.io/codacy/grade/0fe92198dfe04b19b276ca2d6fb00705?color=Blue&style=for-the-badge)](https://www.codacy.com/manual/MonliH/igloo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=igloo-language/igloo&amp;utm_campaign=Badge_Grade)
+
 # An Example
 
 ```igloo
