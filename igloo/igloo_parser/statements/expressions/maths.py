@@ -63,10 +63,7 @@ class Maths:
         if (group := self.factor()) is False:
             self.go_back()
             self.parser_log.add_point(
-                self.lexer_obj.pos,
-                "Expected an expression",
-                self.lexer_obj.peek(),
-                1,
+                self.lexer_obj.pos, "Expected an expression", self.lexer_obj.peek(), 1,
             )
             return False
 

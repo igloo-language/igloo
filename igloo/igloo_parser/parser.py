@@ -49,7 +49,9 @@ class Parser(
             if self.lexer_obj.peek().type == "COMMENT":  # Comment ignore and pass over
                 self.lexer_obj.consume()
                 continue
-            if self.lexer_obj.peek().type == "EOF" and not self.parser_log.logs:  # End of file no error
+            if (
+                self.lexer_obj.peek().type == "EOF" and not self.parser_log.logs
+            ):  # End of file no error
                 break
             if fail and self.parser_log.logs:  # Fail with bad expression/statement
                 self.parser_log.throw()

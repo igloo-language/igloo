@@ -34,7 +34,7 @@ class Program(Expressions, Statements):
             if self.global_objects.verbose:
                 for token in self.lx.tokens():
                     print(token)
-            
+
             self.parser = igloo_parser.Parser(self.lx, self.global_objects)
             self.ast = self.parser.parse()
 

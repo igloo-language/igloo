@@ -14,7 +14,7 @@ class Objects:
         pos=0,
         contents="",
         filename="",
-        objects={},
+        objects=None,
         logger=None,
         verbose=False,
     ):
@@ -22,7 +22,7 @@ class Objects:
         self.pos = pos
         self.contents = contents
         self.filename = filename
-        self.objects = objects
+        self.objects = {} if objects is None else objects
         self.logger = logger
         self.verbose = verbose
 

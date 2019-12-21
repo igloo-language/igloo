@@ -86,10 +86,10 @@ class ReturnStatement(Statement):
 
 
 class VariableAssignment(Statement):
-    def __init__(self, id, value, pos):
-        self.id = id
+    def __init__(self, _id, value, pos):
+        self.id = _id
         self.value = value
-        self.pos = id.pos
+        self.pos = _id.pos
 
 
 class InlineCode(Statement):
