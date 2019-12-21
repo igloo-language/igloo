@@ -1,2 +1,2 @@
-from igloo_parser.parser import *
-import igloo_parser.data_types
+from igloo_parser.parser import *  # noqa
+import igloo_parser.data_types  # noqa
