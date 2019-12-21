@@ -51,10 +51,12 @@ class Expressions:
     def eval_division(self, token):
         return self.eval_expression(token.obj1) / self.eval_expression(token.obj2)
 
-    def eval_negative(self, token):
+    @staticmethod
+    def eval_negative(token):
         return dt.Integer(-int(token.value.value), token.pos)
 
-    def eval_null(self, token):
+    @staticmethod
+    def eval_null(token):
         return dt.Null(token.pos)
 
     def eval_id(self, token):
@@ -68,11 +70,14 @@ class Expressions:
                 UndefinedVariable(f"Undefined variable `{token.value}`")
             )
 
-    def eval_id_name(self, token):
+    @staticmethod
+    def eval_id_name(token):
         return dt.ID(token.value, token.pos)
 
-    def eval_int(self, integer_token):
+    @staticmethod
+    def eval_int(integer_token):
         return dt.Integer(integer_token.value, integer_token.pos)
 
-    def eval_string(self, string_token):
+    @staticmethod
+    def eval_string(string_token):
         return dt.String(string_token.value, string_token.pos)

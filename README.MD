@@ -14,7 +14,7 @@
   </a>
 </p>
 
-# An Example
+## An Example
 
 ```igloo
 func return_five() {
@@ -24,15 +24,15 @@ x = return_five();
 // `x` now has the value of `5`
 ```
 
-# Getting Started
+## Getting Started
 
 To use Igloo, download this repository locally. E.g:
 
 ```bash
-$ cd igloo # go into igloo repository folder
-$ python3.8 igloo/ igloo_file.ig # filename
+cd igloo # go into igloo repository folder
+python3.8 igloo/ igloo_file.ig # filename
 ```
 
-# Compiled Releases
+## Compiled Releases
 
 *Compiled releases are coming soon.*

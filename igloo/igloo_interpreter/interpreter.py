@@ -134,7 +134,6 @@ class Function(Program):
         kwargs_names_run = set([kwarg.id for kwarg in arguments.kwargs])
 
         if num_kwargs_run > num_kwargs:
-            error_kwargs = []
             kwargs_names = set([kwarg.id for kwarg in self.arguments.kwargs])
             kwargs_names_run = set([kwarg.id for kwarg in arguments.kwargs])
             self.global_objects.error.add_point(
@@ -156,7 +155,6 @@ class Function(Program):
         for default in defaults:
             final_objects[default] = kwargs_dictionary[default]
 
-        kwargs = None
         final_objects.update(positional_arguments_dictionary)
         final_objects.update(positional_optional_arguments_dictionary)
 

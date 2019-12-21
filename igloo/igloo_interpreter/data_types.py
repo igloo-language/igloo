@@ -28,9 +28,8 @@ class Objects:
 
 
 class Type:
-    def __init__(self, value, _type, pos):
+    def __init__(self, value, pos):
         self.value = value
-        self.type = _type
         self.pos = pos
 
     def __eq__(self, other):

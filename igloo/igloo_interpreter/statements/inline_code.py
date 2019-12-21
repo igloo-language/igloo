@@ -13,7 +13,7 @@ def inline_code(self, statement):
     except Exception as err:
         error_class = err.__class__.__name__
         detail = err.args[0]
-        cl, exc, tb = sys.exc_info()
+        cl, _, tb = sys.exc_info()
         line_number = traceback.extract_tb(tb)[-1][1]
         self.error_log.add_point(
             self.global_objects.filename, statement.value.value.split("\n")[line_number-1], 1

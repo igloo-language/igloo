@@ -1,5 +1,4 @@
 import igloo_parser.data_types as dt
-import errors
 import igloo_parser.statements as statements
 
 

@@ -1,4 +1,3 @@
-import errors
 import igloo_interpreter
 import os
 import argparse
