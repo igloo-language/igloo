@@ -5,15 +5,15 @@ class Functions:
     def function_run_statement(self):
         # function_run_statement: ID "(" arguments ")" ";"
         position = [self.lexer_obj.pos]
-        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        pos = position[0]  # Create checkpoint to go back if fails
 
         if (_id := self.ID()) is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         position.append(self.lexer_obj.pos)
         if self.lp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `(`", self.lexer_obj.peek(), 1
             )
@@ -25,7 +25,7 @@ class Functions:
 
         position.append(self.lexer_obj.pos)
         if self.rp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `)`", self.lexer_obj.peek(), 2
             )
@@ -36,7 +36,7 @@ class Functions:
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `;`", self.lexer_obj.peek(), 3
             )
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         return dt.FunctionRun(_id, arguments, position)
@@ -44,16 +44,16 @@ class Functions:
     def function_declaration_statement(self):
         # function_declaration_statement: func ID "(" arguments ")" "{" block "}"
         position = [self.lexer_obj.pos]
-        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        pos = position[0]  # Create checkpoint to go back if fails
 
         position.append(self.lexer_obj.pos)
         if self.func() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         position.append(self.lexer_obj.pos)
         if (_id := self.ID()) is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected an ID", self.lexer_obj.peek(), 1
             )
@@ -61,7 +61,7 @@ class Functions:
 
         position.append(self.lexer_obj.pos)
         if self.lp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `(`", self.lexer_obj.peek(), 2
             )
@@ -73,7 +73,7 @@ class Functions:
 
         position.append(self.lexer_obj.pos)
         if self.rp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `)`", self.lexer_obj.peek(), 3
             )
@@ -81,15 +81,15 @@ class Functions:
 
         position.append(self.lexer_obj.pos)
         if self.lcp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         position.append(self.lexer_obj.pos)
-        block = self.block()
+        block = self.block(as_block=True)
 
         position.append(self.lexer_obj.pos)
         if self.rcp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         return dt.FunctionDefine(_id, arguments, block, position)
@@ -218,24 +218,24 @@ class Functions:
 
     def question_id(self):
         # question_id: ID "?"
-        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        pos = self.lexer_obj.pos  # Create checkpoint to go back if fails
 
         if (_id := self.ID()) is False:
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected an ID", self.lexer_obj.peek(), 1
             )
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         if not (self.lexer_obj.peek().type == "QUESTION") and not self.equals():
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `?`", self.lexer_obj.peek(), 2
             )
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         elif not (self.lexer_obj.peek().type == "QUESTION"):
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         self.lexer_obj.consume()
@@ -244,25 +244,24 @@ class Functions:
 
     def kwarg(self):
         # kwarg: ID "=" expression
-        position = self.lexer_obj.pos
-        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        pos = self.lexer_obj.pos # Create checkpoint to go back if fails
 
         if (_id := self.ID()) is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         if not self.equals():
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `=`", self.lexer_obj.peek(), 1
             )
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         if (expression := self.expression()) is False:
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected an expression", self.lexer_obj.peek(), 2
             )
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
-        return dt.Kwarg(_id, expression, position)
+        return dt.Kwarg(_id, expression, pos)

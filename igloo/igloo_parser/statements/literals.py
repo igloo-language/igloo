@@ -67,5 +67,13 @@ class Literals:
         return self.literal("SEMICOLON")
 
     def comma(self):
-        # To parse ";"
+        # To parse ","
         return self.literal("COMMA")
+    
+    def dot(self):
+        # To parse "."
+        return self.literal("DOT")
+
+    def double_semicolon(self):
+        # To parse ";;"
+        return self.literal("DOUBLE_SEMICOLON")

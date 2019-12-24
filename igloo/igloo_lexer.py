@@ -24,6 +24,7 @@ DEFULT_IGLOO_LEXER = [
     (r"=", "EQUALS"),
     (r"\.", "DOT"),
     (r",", "COMMA"),
+    (r";;", "DOUBLE_SEMICOLON"),
     (r";", "SEMICOLON"),
     (r"\?", "QUESTION"),
 ]

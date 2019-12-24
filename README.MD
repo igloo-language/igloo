@@ -4,7 +4,7 @@
   <img src = '/images/igloo_logo.png'>
 </p>
 
-<p align = 'center'><b>A High Level Syntax Oriented Programming Language.</b></p>
+<p align = 'center'>A High Level <b>Syntax Oriented</b> Programming Language.</p>
 
 <br>
 

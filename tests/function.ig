@@ -11,7 +11,7 @@ func println(text) {
 }
 
 func five() {
-    5
+    5;;
 }
 
 printd("10");

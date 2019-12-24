@@ -30,15 +30,14 @@ class Terminals:
 
     def function_run(self):
         # function_run: ID "(" arguments ")"
-        position = self.lexer_obj.pos
-        self.lexer_obj.set_checkpoint()  # Create checkpoint to go back if fails
+        pos = self.lexer_obj.pos
 
         if (_id := self.ID()) is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             return False
 
         if self.lp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `(`", self.lexer_obj.peek(), 1
             )
@@ -48,10 +47,10 @@ class Terminals:
             return False
 
         if self.rp() is False:
-            self.go_back()
+            self.lexer_obj.pos = pos
             self.parser_log.add_point(
                 self.lexer_obj.pos, "Expected `)`", self.lexer_obj.peek(), 2
             )
             return False
 
-        return dt.FunctionRun(_id, arguments, position)
+        return dt.FunctionRun(_id, arguments, pos)
