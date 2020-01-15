@@ -36,3 +36,8 @@ python3.8 igloo/ igloo_file.ig # filename
 ## Compiled Releases
 
 *Compiled releases are coming soon.*
+
+## Todo
+
+[ ] Add changeable syntax at runtime
+[ ] Reimplement in Rust
