@@ -8,12 +8,6 @@
 
 <br>
 
-<p align = 'center'>
-  <a href = 'https://www.codacy.com/manual/MonliH/igloo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=igloo-language/igloo&amp;utm_campaign=Badge_Grade'>
-    <img src = 'https://img.shields.io/codacy/grade/0fe92198dfe04b19b276ca2d6fb00705?style=for-the-badge' alt = 'Codacy Grade' />
-  </a>
-</p>
-
 ## An Example
 
 ```igloo
